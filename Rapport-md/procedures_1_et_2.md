@@ -150,6 +150,12 @@ root@debian$ ip a show
 root@debian$ ip r show
 ```
 
+qui nous montreront respectivement que l'ip de la machine a été modifiée : 
+`inet 192.168.194.3/24 brd 192.168.194.255 scope global enpos`
+
+et que la route par défaut a été définie : 
+`default via 192.168.194.2 dev enp0s3 onlink`
+
 Pour que le système prenne en compte les modfications il faut **reboot* la machine : 
 
 ```sh
