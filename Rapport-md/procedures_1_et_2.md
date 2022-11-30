@@ -27,7 +27,7 @@ login@phys$ ssh_keygen
 ```
 
 Cela va créer un fichier se trouvant en 
-> /home/infoetu/maxence.stievenard.etu/.ssh/id_rsa
+> /home/infoetu/nom.prenom.etu/.ssh/id_rsa
 
 où nous laisserons le nom du fichier par **défaut**.
 
@@ -41,7 +41,7 @@ Une fois la clef créée, il faut la diffuser sur le serveur afin d'en profiter 
 login@phys$ ssh-copy-id -i $HOME/.ssh/id_rsa.pub machine
 ```
 
-*où machine est la machine distante (ex frene16).*
+*où machine est la machine distante = de virtualisation(ex frene16).*
 
 
 ## Créer et gérer des machines virtuelles 
@@ -55,13 +55,13 @@ Pour accéder à la machine virtuelle, nous avons besoin du script `vmiut` que n
 Nous pouvons maintenant utiliser le script, ainsi pour créeer une machine virtuelle nous utilisons la commande : 
 
 ```sh
-login@frene16$ vmiut creer Matrix
+login@virtualisation$ vmiut creer Matrix
 ```
 
 Il faut maintenant procéder à la vérification
 
 ```sh
-login@frene16$ vmiut lister
+login@virtualisation$ vmiut lister
 ```
 
 Si la machine Matrix est bien présente nous pouvons passer à la suite.
@@ -71,27 +71,27 @@ Si la machine Matrix est bien présente nous pouvons passer à la suite.
 Pour démarrer la machine : 
 
 ```sh
-login@frene16$ vmiut demarrer Matrix
+login@virtualisation$ vmiut demarrer Matrix
 ```
 
 ### Arrêt et suppression de la machine virtuelle 
 Pour arrêter la machine : 
 
 ```sh
-login@frene16$ vmiut stop Matrix
+login@virtualisation$ vmiut stop Matrix
 ```
 
 Pour supprimer la machine : 
 
 ```sh
-login@frene16$ vmiut rm Matrix
+login@virtualisation$ vmiut rm Matrix
 ```
 
 ### Obtenir des informations sur la machine virtuelle
 
 La commande:
  ```sh
- login@frene16$ vmiut info Matrix
+ login@virtualisation$ vmiut info Matrix
  ```
 permet de voir les informations et l'état de la machine Matrix. Ainsi, on peut voir si elle est allumée (`etat:running`) ou non, ou même l'adresse ip de la machine se situant à : **ip-possible**
 
@@ -103,13 +103,13 @@ permet de voir les informations et l'état de la machine Matrix. Ainsi, on peut 
 La première manière est l'utilisation de la machine virtuelle en mode graphique, **une fois la connexion ssh actuelle coupée**, nous allons utiliser la commande: 
 
 ```sh
-login@phys$ ssh -X frene16
+login@phys$ ssh -X virtualisation
 ```
 
 puis 
 
 ```sh
-login@frene16$ vmiut console Matrix
+login@virtualisation$ vmiut console Matrix
 ```
 (*pensez à vérifier que la machine est bien allumée, si ce n'est pas le cas n'oubliez pas de le faire*)
 
@@ -123,7 +123,7 @@ Nous souhaitons que la machine ait toujours la même adresse IP, dans notre cas 
 nous devons donc désactiver l'interface enp0s3 (*à partir de root sur la machine virtuelle*) : 
 
 ```sh
-root@debian$ ifdown enp0s3
+root@debian# ifdown enp0s3
 ```
 
 puis nous allons modifier le fichier suivant : 
@@ -140,14 +140,14 @@ par :
 puis nous allons ensuite réactiver l'interface enp0s3 :
 
 ```sh
-root@debian$ ifup enp0s3
+root@debian# ifup enp0s3
 ```
 
 on peut alors constater que les modifications sont bien effectives à l'aide des commandes : 
 
 ```sh
-root@debian$ ip a show
-root@debian$ ip r show
+root@debian# ip a show
+root@debian# ip r show
 ```
 
 qui nous montreront respectivement que l'ip de la machine a été modifiée : 
@@ -159,8 +159,10 @@ et que la route par défaut a été définie :
 Pour que le système prenne en compte les modfications il faut **reboot* la machine : 
 
 ```sh
-root@debian$ reboot
+root@debian# reboot
 ```
+
+Nous pouvons maintenant **fermer la console graphique**.
 
 ## Configurer et mettre à jour la machine virtuelle 
 
@@ -169,14 +171,14 @@ root@debian$ reboot
 **ssh** ne nous permet pas de nous connecter directement à **root**, nous devons donc passer par **user** : 
 
 ```sh
-login@frene16$ ssh user@192.168.194.3
+login@virtualisation$ ssh user@192.168.194.3
 ```
 (*ici on utilisera comme **password user***)
 
 et nous pouvons ainsi nous connecter à root à l'aide de la commande : 
 
 ```sh
-user@debian$ su -
+user@debian# su -
 ```
 
 (*ici on utilisera le **password root***)
@@ -189,7 +191,7 @@ Pour un accès extérieur au réseau, il faut configurer le **proxy de la machin
 à l'aide de la commande : 
 
 ```sh
-root@debian$ echo """HTTP_PROXY=http://cache.univ-lille.fr:3128
+root@debian# echo """HTTP_PROXY=http://cache.univ-lille.fr:3128
 HTTPS_PROXY=http://cache.univ-lille.fr:3128
 http_proxy=http://cache.univ-lille.fr:3128
 https_proxy=http://cache.univ-lille.fr:3128
@@ -198,53 +200,56 @@ NO_PROXY=localhost,192.168.194.0/24,172.18.48.0/22""" >> /etc/environment
 
 (*en étant connecté à **root** comme expliqué précédemment*)
 
+Un **reboot** est nécessaire pour la prise en compte des modifications.
+
 ### Mise à jour de la machine virtuelle
 
-Pour mettre à jour le système nous utilisons la commande : 
+Pour mettre à jour le système nous utilisons depuis **root** la commande : 
 
 ```sh
-root@debian$ apt update && apt full-upgrade
+root@debian# apt update && apt full-upgrade
 ```
 
-Plusieurs chargement se produisent et nous devons faire un choix : 
-- Nous cochons la case */dev/sda/* et confirmons que nous ne souhaitons pas installer **grub**
+Plusieurs chargements se produisent et nous devons faire un choix : 
+- Nous cochons la case */dev/sda/* et confirmons que **nous ne souhaitons pas installer grub**
 
 il faut maintenant faire un **reboot** pour que les modifications soient effectives
 
 ```sh
-roo@debian$ reboot
+roo@debian# reboot
 ```
 
 ### Installation d'outils
-En tant que root, nous avons installés **vim**, **less**, **tree**  et **rsync** à l'aide de la commande suivante.
+Toujour sur la **machine virtuelle** et connecté en tant que **root**, nous allons installer `vim, less, tree  `et` rsync`  à l'aide de la commande suivante.
 
 ```sh
-root@debian$ apt-get install vim less tree rsync
+root@debian# apt-get install vim less tree rsync
 ```
 
 ## Raccourcis utiles
 
-Nous allons modifier le fichier 
+Nous allons modifier le fichier `.ssh/config` de notre machine physique afin de créer des alias et de se connecter plus rapidement aux machines de virtualisation et virtuelle.
 >$HOME/ .ssh/config 
 
-de notre machine physique afin de créer des alias et de se connecter plus rapidement à la machine virtuelle.
+Il faudra donc ajouter les lignes suivantes :
 
-ainsi le fichier contiendra :
+```text
+Host virt
+    HostName virtualisation.iutinfo.fr
+    ForwardAgent yes
 
-> Host virt
->       HostName frene16.iutinfo.fr
->       ForwardAgent yes
->
-> Host vm
->       HostName 192.168.194.3
->       User user
->       ForwardAgent yes
->
-> Host vmjump
->       HostName 192.168.194.3
->       User user
->       ForwardAgent yes
->       ProxyJump virt
+Host vm
+    HostName 192.168.194.3
+    User user
+    ForwardAgent yes
+
+Host vmjump
+    HostName 192.168.194.3
+    User user
+    ForwardAgent yes
+    ProxyJump virt
+```
+
 
 
 
@@ -262,8 +267,8 @@ Il faudra y changer toutes les occurences du nom actuel (ici *debian*) en `matri
 
 Soit à l'aide des commandes :
 ```sh
-root@debian$ echo matrix > /etc/hostname
-root@debian$ sed -i 's/debian/matrix/g' /etc/hosts 
+root@debian# echo matrix > /etc/hostname
+root@debian# sed -i 's/debian/matrix/g' /etc/hosts 
 ```
 
 
@@ -274,7 +279,7 @@ root@debian$ sed -i 's/debian/matrix/g' /etc/hosts
 Avant toute installation de package, nous utilisons la commande (*en étant connecté à root*)
 
 ```sh
-root@matrix$ apt-get update
+root@matrix# apt-get update
 ```
 
 nous permettant de mettre à jour tous les packages. 
@@ -282,7 +287,7 @@ nous permettant de mettre à jour tous les packages.
 puis nous installon sudo avec la commande : 
 
 ```sh
-root@matrix$ apt-get install sudo
+root@matrix# apt-get install sudo
 ```
 
 #### Configuration de sudo
@@ -290,13 +295,13 @@ root@matrix$ apt-get install sudo
 Nous allons ajouter **l'utilisateur user** au groupe sudo :
 
 ```sh
-root@matrix$ usermod user -G sudo
+root@matrix# usermod user -G sudo
 ```
 
 puis nous allons **reboot** la machine pour que les modifications deviennent effectives : 
 
 ```sh
-root@matrix$ reboot
+root@matrix# reboot
 ```
 
 ### Configuration de la synchronisation de l'horloge
@@ -304,13 +309,13 @@ root@matrix$ reboot
 Utiliser la commande :
 
 ```sh
-user@matrix$ date
+user@matrix# date
 ```
 
 Nous avons constaté que l'heure n'était pas la bonne donc nous avons cherché l'erreur à l'aide de la commande : 
 
 ```sh
-user@matrix$ sudo journalctl -u systemd-timesyncd
+user@matrix# sudo journalctl -u systemd-timesyncd
 ```
 Et nous en avons conclus qu'il fallait donc coordonner l'heure à un **serveur NTP**, dans notre cas celui de l'université.
 
@@ -331,7 +336,7 @@ en décommentant les deux lignes qui se suivent et en y ajoutant le ntp de l'uni
 Pour installer postgressql nous allons utliser la commande (*en étant root*) :
 
 ```sh
-rot@matrix$ apt-get install postgresql
+rot@matrix# apt-get install postgresql
 ```
 
 #### Créer un utilisateur de la base de donnée
@@ -339,7 +344,7 @@ rot@matrix$ apt-get install postgresql
 Afin de créer un utilisateur, nous devons nous connecter en tant que root : 
 
 ```sh
-user@matrix$ su -
+user@matrix# su -
 ```
 
 et ensuite se connecter à l'utilisateur **postgres** : 
@@ -350,7 +355,7 @@ root@matrix su - postgres
 à partir de ce point nous pouvons créer un nouvel utilisateur de la base de donnée : 
 
 ```sh
-postgres@matrix$ createuser matrix --pwprompt
+postgres@matrix# createuser matrix --pwprompt
 ```
 
 (*On y ajoutera comme **password : matrix***)
@@ -360,13 +365,13 @@ postgres@matrix$ createuser matrix --pwprompt
 Pour créer une base de donnée, il faut se conecter à l'user **postgres** et utiliser la commande :
 
 ```sh
-postgres@matrix$ createdb matrix -O matrix
+postgres@matrix# createdb matrix -O matrix
 ```
 
 et pour accéder à cette nouvelle base de données nous utilisons la commande :
 
 ```sh
-postgres@matrix$ psql -U matrix -h localhost matrix
+postgres@matrix# psql -U matrix -h localhost matrix
 ```
 
 #### Utilisation de la base de données
