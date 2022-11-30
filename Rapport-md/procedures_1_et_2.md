@@ -227,11 +227,12 @@ root@debian# apt-get install vim less tree rsync
 ```
 
 ## Raccourcis utiles
+Nous pouvons **fermer la connexion ssh** à la **machine virtuelle** ainsi qu'à la **machine de virtualisation**.
 
-Nous allons modifier le fichier `.ssh/config` de notre machine physique afin de créer des alias et de se connecter plus rapidement aux machines de virtualisation et virtuelle.
->$HOME/ .ssh/config 
 
-Il faudra donc ajouter les lignes suivantes :
+Sur notre **machine physique**, nous allons modifier le fichier `$HOME/ .ssh/config` de notre machine physique afin de créer des alias et de se connecter plus rapidement aux machines de virtualisation et virtuelle.
+
+Il faudra donc ajouter les alias paramétrés de la manière suivante :
 
 ```text
 Host virt
@@ -259,18 +260,18 @@ Host vmjump
 
 ### Changement du nom de la machine
 
-Deux fichiers sont à  éditer afin de changer le nom de la machine : 
+De retour sur la **machine virtuelle**, deux fichiers sont à  éditer afin de changer le nom de la machine : 
 - `/etc/hostname`
 - `/etc/hosts`
 
-Il faudra y changer toutes les occurences du nom actuel (ici *debian*) en `matrix` soit en remplaçant manuellement soit à l'aide des commandes
+Il faudra y changer toutes les occurences du nom actuel (ici *debian*) en `matrix` soit en remplaçant manuellement soit à l'aide des commandes :
 
-Soit à l'aide des commandes :
 ```sh
 root@debian# echo matrix > /etc/hostname
 root@debian# sed -i 's/debian/matrix/g' /etc/hosts 
 ```
 
+Un `cat` de ces fichiers nous montrera que les mentions à *debian* ont disparu au profit de **matrix**. 
 
 ### Installation et configuration de la commande sudo
 
@@ -328,7 +329,12 @@ en décommentant les deux lignes qui se suivent et en y ajoutant le ntp de l'uni
 > [Time]
 > NTP=ntp.univ-lille.fr
 
+et pour que les modifications soient effectives il faut relancer le service:
 
+```sh
+user@matrix# sudo systemctl restart systemd-timesyncd.service
+```
+La confirmation s'obtient par la commande `date`.
 ### Installation et configuration basique d'un serveur de base de données
 
 #### Installation de PostGreSQL
@@ -336,7 +342,7 @@ en décommentant les deux lignes qui se suivent et en y ajoutant le ntp de l'uni
 Pour installer postgressql nous allons utliser la commande (*en étant root*) :
 
 ```sh
-rot@matrix# apt-get install postgresql
+root@matrix# apt-get install postgresql
 ```
 
 #### Créer un utilisateur de la base de donnée
