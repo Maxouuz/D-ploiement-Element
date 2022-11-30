@@ -115,16 +115,6 @@ login@frene16$ vmiut console Matrix
 
 Une fois sur la console, se connecter à l'aide du login : `root` et du mot de passe : `root`.
 
-#### En ssh
-
-Pour se connecter en **ssh** à la machine virtuelle : 
-
-```sh
-login@frene16$ ssh user@ip_de_la_machine_virtuelle
-```
-
-(*où l'ip se trouve à l'aide de la commande ```vmiut info Matrix```*)
-
 #### Changement de la configuration réseau
 
 Nous souhaitons que la machine ait toujours la même adresse IP, dans notre cas : 
