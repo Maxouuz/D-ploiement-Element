@@ -2,10 +2,9 @@
 
 Ce projet est mené par **HERSSENS Alexendre** et **STIEVENARD Maxence** afin de répondre aux attentes de la **SAÉ S3.03 - Déploiement d'une application d'une application**.
 
-Trois dossiers seront mis à jour régulièrement contenant nos rapports hebdomadaires dans des extentions différentes : 
+Deux dossiers seront mis à jour régulièrement contenant nos rapports hebdomadaires dans des extentions différentes : 
 - MarkDowwn
 - PDF
-- HTML
 
 Pour générer les rapports en pdf nous utiliserons l'outil [pandoc](https://pandoc.org/) afin de générer également une table des matières fonctionelle. 
 
