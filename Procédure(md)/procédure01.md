@@ -7,7 +7,7 @@
 #### Informations générales et commande de connexion
 Pour se connecter à distance sur une machine du réseau de l'IUT, nous utlisons la commande : 
 
-```sh
+```console
 login@phys$ ssh login@nom_de_la_machine.iutinfo.fr
 ```
 
@@ -22,7 +22,7 @@ Lors de la première connexion sur la machine distante, il faudra vérifier si l
 
 Pour générer une clef qui nous permet de ne pas avoir à entrer nos identifiants à chaque connexion, nous utilisons la commande 
 
-```sh
+```console
 login@phys$ ssh_keygen
 ```
 
@@ -37,7 +37,7 @@ Une **passphrase** sera demandée, il faudra la définir et la confirmer.
 
 Une fois la clef créée, il faut la diffuser sur le serveur afin d'en profiter depuis l'ensemble des machines, ceci s'eefectue à l'aide de la commande : 
 
-```sh
+```console
 login@phys$ ssh-copy-id -i $HOME/.ssh/id_rsa.pub machine
 ```
 
@@ -54,13 +54,13 @@ Pour accéder à la machine virtuelle, nous avons besoin du script `vmiut` que n
 
 Nous pouvons maintenant utiliser le script, ainsi pour créeer une machine virtuelle nous utilisons la commande : 
 
-```sh
+```console
 login@virtualisation$ vmiut creer Matrix
 ```
 
 Il faut maintenant procéder à la vérification
 
-```sh
+```console
 login@virtualisation$ vmiut lister
 ```
 
@@ -70,27 +70,27 @@ Si la machine Matrix est bien présente nous pouvons passer à la suite.
 
 Pour démarrer la machine : 
 
-```sh
+```console
 login@virtualisation$ vmiut demarrer Matrix
 ```
 
 ### Arrêt et suppression de la machine virtuelle 
 Pour arrêter la machine : 
 
-```sh
+```console
 login@virtualisation$ vmiut stop Matrix
 ```
 
 Pour supprimer la machine : 
 
-```sh
+```console
 login@virtualisation$ vmiut rm Matrix
 ```
 
 ### Obtenir des informations sur la machine virtuelle
 
 La commande:
- ```sh
+ ```console
  login@virtualisation$ vmiut info Matrix
  ```
 permet de voir les informations et l'état de la machine Matrix. Ainsi, on peut voir si elle est allumée (`etat:running`) ou non, ou même l'adresse ip de la machine se situant à : **ip-possible**
@@ -102,13 +102,13 @@ permet de voir les informations et l'état de la machine Matrix. Ainsi, on peut 
 
 La première manière est l'utilisation de la machine virtuelle en mode graphique, **une fois la connexion ssh actuelle coupée**, nous allons utiliser la commande: 
 
-```sh
+```console
 login@phys$ ssh -X virtualisation
 ```
 
 puis 
 
-```sh
+```console
 login@virtualisation$ vmiut console Matrix
 ```
 (*pensez à vérifier que la machine est bien allumée, si ce n'est pas le cas n'oubliez pas de le faire*)
@@ -122,7 +122,7 @@ Nous souhaitons que la machine ait toujours la même adresse IP, dans notre cas 
 
 nous devons donc désactiver l'interface enp0s3 (*à partir de root sur la machine virtuelle*) : 
 
-```sh
+```console
 root@debian# ifdown enp0s3
 ```
 
@@ -139,13 +139,13 @@ par :
 
 puis nous allons ensuite réactiver l'interface enp0s3 :
 
-```sh
+```console
 root@debian# ifup enp0s3
 ```
 
 on peut alors constater que les modifications sont bien effectives à l'aide des commandes : 
 
-```sh
+```console
 root@debian# ip a show
 root@debian# ip r show
 ```
@@ -158,7 +158,7 @@ et que la route par défaut a été définie :
 
 Pour que le système prenne en compte les modfications il faut **reboot* la machine : 
 
-```sh
+```console
 root@debian# reboot
 ```
 
@@ -170,15 +170,15 @@ Nous pouvons maintenant **fermer la console graphique**.
 
 **ssh** ne nous permet pas de nous connecter directement à **root**, nous devons donc passer par **user** : 
 
-```sh
+```console
 login@virtualisation$ ssh user@192.168.194.3
 ```
 (*ici on utilisera comme **password user***)
 
 et nous pouvons ainsi nous connecter à root à l'aide de la commande : 
 
-```sh
-user@debian# su -
+```console
+user@debian$ su -
 ```
 
 (*ici on utilisera le **password root***)
@@ -190,7 +190,7 @@ Pour un accès extérieur au réseau, il faut configurer le **proxy de la machin
 
 à l'aide de la commande : 
 
-```sh
+```console
 root@debian# echo """HTTP_PROXY=http://cache.univ-lille.fr:3128
 HTTPS_PROXY=http://cache.univ-lille.fr:3128
 http_proxy=http://cache.univ-lille.fr:3128
@@ -206,7 +206,7 @@ Un **reboot** est nécessaire pour la prise en compte des modifications.
 
 Pour mettre à jour le système nous utilisons depuis **root** la commande : 
 
-```sh
+```console
 root@debian# apt update && apt full-upgrade
 ```
 
@@ -215,14 +215,14 @@ Plusieurs chargements se produisent et nous devons faire un choix :
 
 il faut maintenant faire un **reboot** pour que les modifications soient effectives
 
-```sh
+```console
 roo@debian# reboot
 ```
 
 ### Installation d'outils
 Toujour sur la **machine virtuelle** et connecté en tant que **root**, nous allons installer `vim, less, tree  `et` rsync`  à l'aide de la commande suivante.
 
-```sh
+```console
 root@debian# apt-get install vim less tree rsync
 ```
 

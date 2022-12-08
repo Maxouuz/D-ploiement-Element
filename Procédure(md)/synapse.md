@@ -122,7 +122,15 @@ user@matrix$ register_new_matrix_user -u max -p max -c /etc/matrix-synapse/homes
 
 #### Connexion au serveur 
 
+### Avoir la possibilité d'ajouter de créer un compte
 
+Toujours dans le fichier `/etc/matrix-synapse/homeserver.yaml`, on peut ajouter ces deux lignes pour pouvoir donner la possibilité aux utilisateurs de créer un compte
+```yaml
+enable_registration: true
+enable_registration_without_verification: true
+```
+
+On peut redémarrer le serveur synapse avec la commande `systemctl restart matrix-synapse` (en tant qu'administrateur), et constater qu'on peut bel est bien créer un nouvel utilisateur depuis synapse
 
 
 
