@@ -13,7 +13,7 @@ source /home/public/vm/vm.env
 
 ## Installation d'une VM
 
-## IMPORTANT
+### IMPORTANT
 
 **Toutes ces procédures doivent être réalisées sur la machine de virtualisation !** 
 
