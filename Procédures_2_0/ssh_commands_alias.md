@@ -13,6 +13,7 @@ Host <alia_vm>
     HostName 192.168.194.XX
     User user
     ForwardAgent yes
+    GatewayPorts yes
 
 Host vmjump
     HostName 192.168.194.XX
