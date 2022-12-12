@@ -187,7 +187,9 @@ http_proxy=http://cache.univ-lille.fr:3128
 https_proxy=http://cache.univ-lille.fr:3128
 NO_PROXY=localhost,192.168.194.0/24,172.18.48.0/22""" >> /etc/environment
 ```
-Un **redémarrage** est nécessaire pour la prise en compte des modifications (`reboot`).
+Pour que les modifications soient prises en compte, deux manipulations sont possibles : 
+- **Redémarrer (`reboot`) OU
+- Se **déconnecter** (`exit`) de root et s'y **reconnecter** (`su -`, puis mdp=`root`)
 
 ### Mise à jour de la VM
 
