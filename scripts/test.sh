@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo ip =  $1
+echo $1
