@@ -6,11 +6,21 @@ NAME=$1
 IP=$2
 
 vm_create(){
-	$VMIUT creer $NAME > /dev/null 2>&1
+	if [ $($VMIUT creer $NAME > /dev/null 2>&1) ];
+		then 
+			# echo "VM créée!"
+			return 0
+		else return 1
+	fi
 }
 
 vm_start(){
-	$VMIUT start $NAME > /dev/null 2>&1
+	if [ $($VMIUT start $NAME > /dev/null 2>&1) ]; 
+		then 
+			# echo "VM démarrée! "
+			return 0
+		else return 1
+	fi
 }
 
 dhcp_ok(){
@@ -21,12 +31,31 @@ dhcp_ok(){
 	fi
 }
 
+dhcp_setup(){
+	# echo "En attente de la configuration DHCP"
+	dhcp_ok
+	# echo "Terminé"
+}
+
 vm_ip(){
 	echo $($VMIUT info $NAME | grep "ip-possible" | cut -d "=" -f 2)
 }
 
-vm_create
-vm_start
-dhcp_ok
-echo Machine virtuelle $NAME créée et démarrée!
+vm_exists(){
+	if [ $($VMIUT info $NAME > /dev/null 2>&1) ];
+		then return 0
+		else return 1
+	fi
+}
 
+vm_runs(){
+	if [ $($VMIUT info $NAME | grep -c "running") -eq 1 ];
+		then return 0
+		else return 1
+	fi
+}
+
+vm_exists || vm_create 
+vm_runs || vm_start
+dhcp_setup
+echo  $(vm_ip)
