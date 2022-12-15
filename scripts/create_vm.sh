@@ -7,7 +7,7 @@ IP=$2
 
 vm_create(){
     printf "Création : " >&2
-    [ $(vm_exists) ] && printf "Existe déjà\n" >&2
+    [ $(vm_exists) ] && printf "Existe déjà\n" >&2 && return 0
 	if [ $($VMIUT creer $NAME > /dev/null 2>&1) ];
 		then 			
             printf "OK\n" >&2
@@ -68,4 +68,5 @@ vm_runs(){
 }
 
 
+printf "Création et démarrage de la VM $NAME : " >&2
 vm_create && vm_start && dhcp_setup && echo  $(vm_ip)
