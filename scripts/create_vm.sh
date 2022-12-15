@@ -6,29 +6,25 @@ NAME=$1
 IP=$2
 
 vm_create(){
-    printf "Création : " >&2
-    [ $(vm_exists) ] && printf "Existe déjà\n" >&2 && return 0
-	if [ $($VMIUT creer $NAME) ];#> /dev/null 2>&1
-		then 			
-            printf "OK\n" >&2
-			return 0
-		else 
-            printf "NOK\n" >&2
-            return 1
+    printf "\tCréation : " >&2
+	if [ $($VMIUT lister | grep -c $NAME) -eq 0 ];
+		then 
+			$($VMIUT creer $NAME > /dev/null 2>&1) 
+			printf "OK\n" >&2
+		else  printf "Existe déjà\n" >&2
 	fi
+	return 0
 }
 
 vm_start(){
-    printf "Démarrage : " >&2
-    [ $(vm_runs) ] && printf "Déjà démarrée\n" >&2 && return 0
-	if [ $($VMIUT start $NAME) ]; #> /dev/null 2>&1
-		then		
-            printf "OK\n" >&2
-			return 0
-		else 
-            printf "NOK\n" >&2
-            return 1
+    printf "\tDémarrage : " >&2
+	if [ $($VMIUT info $NAME | grep -c running) -eq 0 ];
+		then
+			$($VMIUT start $NAME > /dev/null 2>&1)
+			printf "OK\n" >&2
+		else printf "Déja démarrée\n" >&2
 	fi
+	return 0
 }
 
 dhcp_ok(){
@@ -39,33 +35,18 @@ dhcp_ok(){
             printf "." >&2
             dhcp_ok;
 		else 
-            printf "\n\tTerminé : %s\n" "$TMP_IP" >&2
+            printf "\n\t\tTerminé : %s\n" "$TMP_IP" >&2
             return 0;
 	fi
 }
 
 dhcp_setup(){	
-    printf "En attente de la configuration DHCP : " >&2
+    printf "\tEn attente de la configuration DHCP : " >&2
 	dhcp_ok
 }
 
 vm_ip(){
 	echo $($VMIUT info $NAME | grep "ip-possible" | cut -d "=" -f 2)
-}
-
-vm_exists(){
-    echo "existe?"
-	if [ $($VMIUT info $NAME > /dev/null 2>&1) ];
-		then return 0
-		else return 1
-	fi
-}
-
-vm_runs(){
-	if [ $($VMIUT info $NAME | grep -c "running") -eq 1 ];
-		then return 0
-		else return 1
-	fi
 }
 
 
