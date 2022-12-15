@@ -23,7 +23,7 @@ update(){
 	ssh -t user@$IP "su - root -c \"apt-get update && apt-get full-upgrade"
 }
 
-printf "Transfert et exécution du script de configuration\n" >&2
+printf "Exécution du script de configuration\n" >&2
 transfer
-# config
+config
 update

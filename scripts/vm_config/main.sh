@@ -46,10 +46,11 @@ ntp(){
 }
 
 
-
 printf "%s\n" "-----------------------" >&2
 printf "SCRIPT DE CONFIGURATION\n" >&2
 rename
 interfaces
 proxy
 ntp
+printf "FIN\n" >&2
+printf "%s\n" "-----------------------" >&2
