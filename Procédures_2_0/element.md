@@ -43,7 +43,7 @@ user@<nom-vm>$ sudo ln -s /etc/nginx/sties-available/element /etc/nginx/sites-en
 ```
 
 ```console
-user@<nom-vm> sudo cp /var/www/html/element/config.sample.json /var/www/html/element/config.json
+user@<nom-vm>$ sudo cp /var/www/html/element/config.sample.json /var/www/html/element/config.json
 ```
 
 Suite à ça nous devons redémarrer nginx pour que les modifications prennent effet : 
