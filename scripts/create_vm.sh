@@ -54,6 +54,7 @@ vm_ip(){
 }
 
 vm_exists(){
+    echo "existe?"
 	if [ $($VMIUT info $NAME > /dev/null 2>&1) ];
 		then return 0
 		else return 1
