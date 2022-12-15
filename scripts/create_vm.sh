@@ -54,11 +54,18 @@ vm_ip(){
 }
 
 vm_exists(){
-	return [ $($VMIUT info $NAME > /dev/null 2>&1) ]
+	if [ $($VMIUT info $NAME > /dev/null 2>&1) ];
+		then return 0
+		else return 1
+	fi
 }
 
 vm_runs(){
-	return [ $($VMIUT info $NAME | grep -c "running") -eq 1 ]
+	if [ $($VMIUT info $NAME | grep -c "running") -eq 1 ];
+		then return 0
+		else return 1
+	fi
 }
+
 
 vm_create && vm_start && dhcp_setup && echo  $(vm_ip)
