@@ -17,4 +17,4 @@ printf "Création et configuration de la VM %s (192.168.194.%s)\n" "$NAME" "$IP"
 
 TMP_IP=$(sh ./create_vm.sh $NAME)
 sh ./ssh_config_rsa.sh $TMP_IP
-sh ./config_vm.sh $NAME $TMP_IP
+sh ./config_vm.sh $NAME $TMP_IP $IP

@@ -7,7 +7,7 @@ IP=$2
 
 vm_create(){
     printf "\tCréation : " >&2
-	if [ $($VMIUT lister | grep -c $NAME) -eq 0 ];
+	if [ $($VMIUT lister | grep -c "\b$NAME\b") -eq 0 ];
 		then 
 			$($VMIUT creer $NAME > /dev/null 2>&1) 
 			printf "OK\n" >&2

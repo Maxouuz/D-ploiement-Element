@@ -12,9 +12,14 @@ copy_id(){
 
 ssh_agent(){
 	printf "\tMise en place de l'agent SSH:\n" >&2
-	printf "\t\t" >&2 && eval $(ssh-agent) > /dev/null 2>&1
-	ssh-add > /dev/null 2>&1
-	printf "\t\tOK\n" >&2
+	if [ -z "$SSH_AUTH_SOCK" ] ; 
+	then
+      		eval `ssh-agent -s` > /dev/null
+      		ssh-add $PUB_KEY > /dev/null 2>&1
+		printf "\t\tConfiguré\n" >&2
+	else
+		printf "\t\tTourne déjà\n" >&2
+	fi
 	return 0
 }
 
