@@ -47,8 +47,8 @@ ntp(){
 
 
 
-printf "-----------------------" >&2
-printf "SCRIPT DE CONFIGURATION" >&2
+printf "%s\n" "-----------------------" >&2
+printf "SCRIPT DE CONFIGURATION\n" >&2
 rename
 interfaces
 proxy
