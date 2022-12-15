@@ -20,7 +20,7 @@ vm_create(){
 
 vm_start(){
     printf "Démarrage : " >&2
-    [ $(vm_runs) ] && printf "Déjà démarrée\n" >&2
+    [ $(vm_runs) ] && printf "Déjà démarrée\n" >&2 && return 0
 	if [ $($VMIUT start $NAME > /dev/null 2>&1) ]; 
 		then		
             printf "OK\n" >&2
@@ -54,14 +54,11 @@ vm_ip(){
 }
 
 vm_exists(){
-	return [ $($VMIUT info $NAME > /dev/null 2>&1) ];
+	return [ $($VMIUT info $NAME > /dev/null 2>&1) ]
 }
 
 vm_runs(){
-	return [ $($VMIUT info $NAME | grep -c "running") -eq 1 ];
+	return [ $($VMIUT info $NAME | grep -c "running") -eq 1 ]
 }
 
-vm_create 
-vm_start
-dhcp_setup
-echo  $(vm_ip)
+vm_create && vm_start && dhcp_setup && echo  $(vm_ip)
