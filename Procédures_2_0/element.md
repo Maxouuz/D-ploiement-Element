@@ -4,11 +4,11 @@
 
 Nous avons choisi `nginx` plutôt qu'apache car nginx permet de de traiter `plusieurs requêtes sur un seul thread`, et donc de réaliser très rapidement les opérations et de déployer le minimum de ressources.
 
-Ngix est égaleent plus peformant quand il s'agit de traiter un contenu statique.
+Ngix est également plus performant quand il s'agit de traiter un contenu statique.
 
 ## Installation de Element
 
-Pour installer element, nous nous rendons sur le répertoire github offciel de Element afin de pouvoir l'installer sur la machine virtuelle. 
+Pour installer element, nous nous rendons sur le répertoire github officiel de [Element](https://github.com/vector-im) afin de pouvoir l'installer sur la machine virtuelle. 
 
 
 ```console
